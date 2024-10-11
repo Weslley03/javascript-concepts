@@ -34,7 +34,36 @@ Resumidamente, para trabalhar com heranças, funções construtoras utilizam 'ca
 9 - Para redefinir um método herdado de um protótipo em um objeto especifico, sem alterar o protótipo original, posso simplesmente adicionar uma função ao objeto que eu desejo modificar. essa nova função irá sobrepor o método herdado quando chamada a partir daquela instância específica. 
 Explicando em código, supomos que defino um protótipo 'Animal', depois disso, via 'prototype' eu adiciono um método qualquer, nesse exemplo 'speak', depois disso eu crio uma instancia de 'Animal' ('animal'), para ter um objeto que herde seus métodos e propriedades, AGORA, eu crio uma instancia específica, Dog: 'const dog = Object.create(animal)', dessa forma consigo adicionar um metodo qualquer com o mesmo nome, 'speak', sobrepondo o método original de animal, herdado por 'Animal', dog.speak() é diferente de animal.speak().
 
+10 - O que significa dizer que os métodos de um objeto são compartilhados através de seu protótipo? Quais as implicações em termos de memória e performance?
+10 - Quando dizemos que os métodos de um objeto são compartilhados através de seu protótipo, estamos nos referindo ao sistema de herança prototipal do Javascript. Onde cada objeto em Javascript tem uma propriedade interna chamada Prototype, que é uma referencia a outro objeto, e esse objeto de referencia é chamado de protótipo. Quando definimos um método em Object.create() ou via prototype mediante uma função construtora, todas as instancias desse objeto podem acessar esse método, isso significa que o método não é copiado para cada base de cada instância, mas sim ACESSADO através da cadeia de protótipos.
+Implicações em termos de memória e performance.
+Referente ao uso da memória e sua eficiência, como os métodos são armazenados no protótipo e não em cada instância, o uso de memória é otimizado. Caso seja criado 1000 instâncias de um objeto, todas essas compartilham a mesma referência ao método do protótipo, ao invés de ter uma cópia do método em cada instância.	Isso economiza memória, pois métodos e propriedades compartilhadas não precisam ser duplicados.
+A performance pode ser beneficiada pelo fato dos métodos serem compartilhados. Quando um método é chamado, o Javascript pode acessar diretamente o protótipo em vez de percorrer toda a instância. O 'lookup' do Javascript geralmente é muito rápido, pois as engines otimizam essas operações.
+
+11 - Se você criar uma função construtora e adicionar um método ao seu protótipo após já ter criado alguns objetos usando new, os objetos já criados terão acesso ao novo método? Explique.
+11 - Sim, os métodos já criados terão sim acesso ao novo método adicionado. 
+Quando se cria uma função construtora e instancia objetos com 'new', cada instância criada tem acesso ao prototype da função construtora atráveis da sua propriedade interna [[Prototype]]. Isso significa que qualquer método ou propriedade adicionada ao 'prototype' é acessível a todas as instancias já criadas e futuras. Essa dinâmica de protótipos permite que você adicione métodos e propriedades a um construtor a qualquer momento, e todas essas instancias existentes e futuras se beneficiarão dessas adições, promovendo um design mais flexível e reutilizável.
+
+12 - Como você implementaria herança entre duas funções construtoras, como Person e Employee, onde Employee herda de Person e também adiciona métodos próprios? 	 
+12 - Supondo que eu tenha criado a função Person, e queira criar Employee herdando suas propriedade, posso fazer isso criando uma função construtora que chama Person com o método 'call' (Person.call), passando assim this, e seus demais parâmetros.
+Para herdar seus métodos, posso utilizar o método 'Employee.prototype = Object.create(Person.prototype)'.
+E finalmente, para adicionar um método próprio para Employee, posso fazer dessa forma: 'Employee.prototype.method = function...'
+Resumo da implantação, usamos 'Person.call' dentro de Employee para herdar suas propriedades, utilizamos Object.create() para fazer Employee herdar os métodos de Person, adicionamos métodos exclusivos de Employ diretamente de Employee.prototype.
+
+13 - Explique como o super é utilizado em uma classe ES6 para acessar o comportamento de uma classe pai.
+13 - O 'super' foi implementado junto ao ES6 para ser utilizado, mediante a um 'extends' na declaração de uma classe. Ele é utilizado para chamar o construtor da classe pai e garantir que as propriedades da classe pai sejam iniciadas corretamente.
+Sua utilização é semelhante ao uso de 'call' (ClassName.call(this, ...). A principal diferença é que, em classes ES6, o super é obrigatório no construtor da classe derivada antes de acessar 'this' enquanto se utiliza extends.
+
+14 - Qual seria o resultado do código abaixo e por quê?
+14 - O resultado seria:
+'Driving...
+Using electric power...'
+A classe 'Car' é criada e estendida pela classe 'EletricCar', sendo assim 'EletricCar' tem métodos herdados (drive, nesse caso).
+'EletricCar' também cria um método chamado drive, que até então sobrescrevia o método de seu pai, porém, a lógica desse método chama o 'super', responsável por acionar propriedades métodos da classe sendo estendida. Mediante um 'super.drive()' e um 'console.log('Using electric power...')', ambas as mensagens serão exibidas em tela.
+
+15 - Em que situações você pode preferir usar mixin em vez de herança prototipal em JavaScript?
+15 - Podemos utilizar Mixins em vez de Herança Prototipal em situações de existência de duas ou mais classes que precisam compartilhar um conjunto de métodos, em casos onde essas classes não tem relação de herança lógica. Em uma herança prototipal tradicional, uma classe só pode herdar de outra classe. Mixins permitem que você adicione comportamentos de várias fontes. 
 
 
-
-	
+pode me avaliar e corrigir apenas as respostas que eu errei?
+quero uma nota e saber se eu poderia passar numa vaga de dev junior
