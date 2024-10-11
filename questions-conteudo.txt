@@ -1,0 +1,40 @@
+1 - O que é um [[Prototype]] e como ele é usado em JavaScript?
+1 - No Javascript, cada objeto possui uma propriedade interna chamada 'Prototype', que é uma referencia a outro objeto. Essa referência permite que o objeto herde propriedades e métodos desse outro objeto.
+
+2 - Como funciona a cadeia de protótipos (prototype chain) em JavaScript?
+2 - Quando se tenta acessar a propriedade ou método de um objeto, o Javascript primeiro verifica se essa propriedade existe no próprio objeto. Se não encontrar, ele procura na cadeia de protótipos, seguindo a referência de 'Prototype'.
+
+3 - Qual é a diferença entre Object.create() e o operador 'new' ao criar um objeto?
+3 - Essa diferença entre Object.create() e o operador 'new' está relacionado a forma como a herança de objetos é configurado e a criação de novas instâncias. O Object.create() cria um novo objeto vazio com o protótipo especificado, mas sem ação da função construtora desse objeto, ele não chama nenhum construtor. é uma maneira mais direta de criar um objeto. O 'new' é usado para criar uma nova instancia de uma função construtora, ele cria um novo objeto, define seu protótipo com o 'prototype' da função construtora e escuta a função construtora com 'this', apontando par aum novo objeto, ideal para criar múltiplas instâncias de um objeto usando um modelo comum.
+
+4 - Por que é recomendado usar Object.create() ao invés de __proto__ para definir o protótipo de um objeto?
+4 - utilizar o Object.create() ajuda a manter o código mais moderno, legível e alinhado com as melhores práticas para Javascript. 
+Vale ressaltar que o '__proto__' se tornou obsoleto desde o ECS6, foi mantida inicialmente apenas por questões de compatibilidade com código mais antigos. O uso de '__proto__' é desencorajado também por questões de legibilidade e clareza do código, usando o Object.create(), a intenção de criar um objeto a partir de um 'proto' especifico é clara, ao contrario de um 'obj2.__proto__ = obj1'. Resumidamente, o uso de '__proto__' é menos eficiente e pode inserir possíveis erros de segurança no código.
+
+5 - O que acontece quando você tenta acessar uma propriedade que não existe em um objeto? Como o JavaScript resolve isso?
+5 - Caso seja feito a tentativa de acesso de uma propriedade em um objeto especifico, o Javascritp busca nesse objeto a tal propriedade, e caso não encontre, percorre o cadeia de protótipos até encontrar a propriedade especifica, esse é o  'prototype chain'.
+
+6 - Como você adicionaria um método ao prototype de uma função construtora para que todos os objetos criados a partir dela possam acessar esse método?
+6 - Tendo uma lógica estabelecida em uma função construtora, eu criaria todas as demais instancias desse objeto a partir do operador 'new'. Dessa forma, passaria todos os demais parâmetros solicitados pelo construtor, seguindo assim uma lógica na criação de todos os objetos a partir de um 'Prototype' especifico. 
+
+7 - Qual é a diferença entre uma função construtora e uma classe ES6? Elas funcionam de forma diferente em relação à herança prototipal?
+7 - Funções construtoras e classes ES6 são duas formas de criar objetos no Javascript. Podemos diferencia-las com alguns detalhes importantes.
+Referente a Funções Construtoras e sua sintaxe, são funções normais, mas são usadas com a palavra chave 'new' para criação de objetos. Quando se usa o 'new' para uma função construtora, o Javascript cria um novo objeto, define 'this' para apontar para esse novo objeto e vincula seu protótipo ao 'prototype' da função. A Herança Prototipal é alcançada usando o prototype. Para adicionar métodos compartilhados por todas as instâncias criadas por uma função construtora, adicionamos os métodos ao 'prototype' da função.
+As classes ES6 introduzem uma sintaxe mais limpa e orientadas a objetos para criar objetos e lidar com herança. No entanto, internamente, elas ainda usam herança prototipal. A palavra 'class' é usada para definir uma nova classe, e o método 'constructor' é chamado automaticamente quando  criamos uma nova instância usando 'new'. A herança é facilitada com a palavra 'extends', permitindo criar uma classe que herda de outra de forma simples e legível. 'super' é usado para chamar o 'constructor' da classe pai.  
+Resumidamente, podemos citar as principais as diferenças na:
+- sintaxe e legibilidade do código: As classes ES6 oferecem uma sintaxe mais aproximada da orientada a objetos, como em outras linguagens como Java e C#, podendo assim ser mais familiar para outros desenvolvedores. A sintaxe de funções construtoras é mais verbosa, exigindo o uso de 'prototype' para adicionar métodos, enquanto nas classes ES6, os métodos são declarados diretamente dentro da classe.
+ - Abstração: Classes ES6 fornecem uma abstração mais clara, facilitando a leitura e manutenção do código. Funções construtoras expõem diretamente a mecânica de herança prototipal, oque pode ser útil para entender como a linguagem funciona por debaixo dos panos.
+- Métodos Estáticos: Classes ES6 permitem a definição de métodos estáticos usando a palavra chave 'static', definindo assim métodos que que pertencem somente a classe, e não suas instancias. Embora seja possível criar métodos estáticos em funções construtoras, não há uma sintaxe dedicada para isso, sendo necessário criar o método diretamente a função construtora.
+Resumidamente, para trabalhar com heranças, funções construtoras utilizam 'call' e Object.create(), classes do ES6 utilizam 'extends' e 'super', ambas as formas de criação de objeto utilizam a herança prototipal, seja de maneira explícita e direta, ou não.
+
+8 - Dado o código abaixo, explique o que está acontecendo: 'código...'
+8 - No código abaixo, usamos uma função construtora pra criar 'Animal', via 'prototype' é adicionando o método 'eat', que executa um log em tela, criamos uma instancia de Animal usando o operador 'new'. 'dog' sendo instância de Animal, isAlive é igual a 'true' e 'Eating...' será printado em tela.
+
+9 - Como você redefiniria um método herdado de um protótipo em um objeto específico, sem alterar o protótipo original?
+9 - Para redefinir um método herdado de um protótipo em um objeto especifico, sem alterar o protótipo original, posso simplesmente adicionar uma função ao objeto que eu desejo modificar. essa nova função irá sobrepor o método herdado quando chamada a partir daquela instância específica. 
+Explicando em código, supomos que defino um protótipo 'Animal', depois disso, via 'prototype' eu adiciono um método qualquer, nesse exemplo 'speak', depois disso eu crio uma instancia de 'Animal' ('animal'), para ter um objeto que herde seus métodos e propriedades, AGORA, eu crio uma instancia específica, Dog: 'const dog = Object.create(animal)', dessa forma consigo adicionar um metodo qualquer com o mesmo nome, 'speak', sobrepondo o método original de animal, herdado por 'Animal', dog.speak() é diferente de animal.speak().
+
+
+
+
+	
