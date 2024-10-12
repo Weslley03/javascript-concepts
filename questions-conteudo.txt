@@ -63,7 +63,3 @@ A classe 'Car' é criada e estendida pela classe 'EletricCar', sendo assim 'Elet
 
 15 - Em que situações você pode preferir usar mixin em vez de herança prototipal em JavaScript?
 15 - Podemos utilizar Mixins em vez de Herança Prototipal em situações de existência de duas ou mais classes que precisam compartilhar um conjunto de métodos, em casos onde essas classes não tem relação de herança lógica. Em uma herança prototipal tradicional, uma classe só pode herdar de outra classe. Mixins permitem que você adicione comportamentos de várias fontes. 
-
-
-pode me avaliar e corrigir apenas as respostas que eu errei?
-quero uma nota e saber se eu poderia passar numa vaga de dev junior
